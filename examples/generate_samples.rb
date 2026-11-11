@@ -3,11 +3,12 @@
 # Regenerates examples/samples/*. Every value comes from a fixed seed, so running it again changes nothing.
 #
 #   ruby -Ilib examples/generate_samples.rb
+require "fileutils"
 require "json"
 require "brkit"
 
 SAMPLES = File.expand_path("samples", __dir__)
-Dir.mkdir(SAMPLES) unless Dir.exist?(SAMPLES)
+FileUtils.mkdir_p(SAMPLES)
 
 # Ten fictitious people (names, a checksum-valid CPF, e-mail on example.org, phone, address).
 people = Brkit::Fake.people(10, seed: 2026)

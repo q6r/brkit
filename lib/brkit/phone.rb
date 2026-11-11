@@ -75,7 +75,7 @@ module Brkit
       # @raise [InvalidInputError] when the number is not valid
       def format(input)
         result = validate(input)
-        raise InvalidInputError.new(result.errors) unless result.valid?
+        raise InvalidInputError, result.errors unless result.valid?
 
         result.formatted
       end

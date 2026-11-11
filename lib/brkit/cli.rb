@@ -250,9 +250,7 @@ module Brkit
     def validate(document, args)
       options = { explain: false, json: false }
       parse(args, "Usage: brkit #{document.name} validate VALUE... [options]") do |parser|
-        if document.explain
-          parser.on("--explain", "show the checksum computation step by step") { options[:explain] = true }
-        end
+        parser.on("--explain", "show the checksum computation step by step") { options[:explain] = true } if document.explain
         parser.on("--json", "one JSON object per value") { options[:json] = true }
       end
       values = values_from(args)
@@ -393,7 +391,7 @@ module Brkit
       end
       raise UsageError, "unexpected argument #{args.first.inspect}" unless args.empty?
 
-      missing = %i[key name city].reject { |field| options[field] }
+      missing = [:key, :name, :city].reject { |field| options[field] }
       unless missing.empty?
         raise UsageError, "missing required option#{'s' if missing.length > 1}: #{missing.map { |f| "--#{f}" }.join(', ')}"
       end
@@ -433,7 +431,7 @@ module Brkit
                      "#{@style.paint('invalid:', :bold, :red)} BR Code"
                    end)
       result.errors.each do |issue|
-        @stdout.puts(@style.paint("  - #{issue.field ? "[#{issue.field}] " : ''}#{issue.message}", :red))
+        @stdout.puts(@style.paint("  - #{"[#{issue.field}] " if issue.field}#{issue.message}", :red))
       end
       Array(result.details[:fields]).each { |field| print_field(field, 0) }
     end

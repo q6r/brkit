@@ -13,4 +13,4 @@ end
 RuboCop::RakeTask.new
 
 desc "Run the tests and the linter"
-task default: %i[test rubocop]
+task default: [:test, :rubocop]

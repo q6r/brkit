@@ -33,8 +33,9 @@ module Brkit
       BASE.map { |field_id, field_value| field_id == id ? [id, value] : [field_id, field_value] }
     end
 
+    # BASE is a list of [id, value] pairs (order and repeats matter in a TLV payload), not a Hash.
     def base_without(*ids)
-      BASE.reject { |id, _value| ids.include?(id) }
+      BASE.reject { |pair| ids.include?(pair.first) }
     end
 
     def test_the_manual_examples_are_valid
@@ -50,9 +51,9 @@ module Brkit
 
     def test_decodes_the_tree
       fields = Pix.decode(MANUAL_PAYLOAD).details[:fields]
-      assert_equal %w[00 26 52 53 58 59 60 62 63], fields.map { |f| f[:id] }
+      assert_equal(%w[00 26 52 53 58 59 60 62 63], fields.map { |f| f[:id] })
       assert_equal ["Merchant Account Information", 58], fields[1].values_at(:name, :length)
-      assert_equal %w[00 01], fields[1][:children].map { |c| c[:id] }
+      assert_equal(%w[00 01], fields[1][:children].map { |c| c[:id] })
       assert_equal "Fulano de Tal", fields[5][:value]
     end
 

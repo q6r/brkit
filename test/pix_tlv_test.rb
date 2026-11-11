@@ -138,7 +138,7 @@ module Brkit
 
     def test_field_to_h
       hash = Pix::TLV.parse("26250014br.gov.bcb.pix0103abc").first.to_h
-      assert_equal %i[id name length value children], hash.keys
+      assert_equal [:id, :name, :length, :value, :children], hash.keys
       assert_equal 25, hash[:length]
       expected_child = { id: "00", name: "Globally Unique Identifier", length: 14, value: "br.gov.bcb.pix" }
       assert_equal expected_child, hash[:children].first

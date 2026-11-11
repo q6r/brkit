@@ -26,7 +26,7 @@ module Brkit
       CPF_SHAPE = /\A\d{3}\.?\d{3}\.?\d{3}-?\d{2}\z/
       CNPJ_SHAPE = %r{\A[0-9A-Za-z]{2}\.?[0-9A-Za-z]{3}\.?[0-9A-Za-z]{3}/?[0-9A-Za-z]{4}-?\d{2}\z}
       LABEL = "[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?"
-      EMAIL = /\A[A-Za-z0-9.!#$%&'*+\/=?^_`{|}~-]{1,64}@#{LABEL}(?:\.#{LABEL})+\z/
+      EMAIL = %r{\A[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]{1,64}@#{LABEL}(?:\.#{LABEL})+\z}
 
       UNRECOGNISED = "could not tell the key type: use a CPF, a CNPJ, a mobile number in +55 format, " \
                      "an e-mail address or a random key (UUID)"

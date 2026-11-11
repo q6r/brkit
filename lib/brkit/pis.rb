@@ -56,7 +56,7 @@ module Brkit
       # @raise [InvalidInputError] when +input+ does not hold 11 digits
       def format(input)
         digits = strip(input)
-        raise InvalidInputError.new([length_issue(digits)]) unless digits.length == LENGTH
+        raise InvalidInputError, [length_issue(digits)] unless digits.length == LENGTH
 
         mask(digits)
       end

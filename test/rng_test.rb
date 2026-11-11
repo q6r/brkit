@@ -62,7 +62,7 @@ module Brkit
       random = Random.new(3)
       digits = Rng.digits(random, 12)
       assert_equal 12, digits.length
-      assert digits.all? { |digit| digit.between?(0, 9) }
+      assert(digits.all? { |digit| digit.between?(0, 9) })
       assert_equal [], Rng.digits(random, 0)
       assert_equal true, Rng.chance?(Random.new(1), 100)
       assert_equal false, Rng.chance?(Random.new(1), 0)

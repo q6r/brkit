@@ -5,8 +5,8 @@ require_relative "test_helper"
 module Brkit
   class ResultTest < Minitest::Test
     def build(**overrides)
-      Result.new(**{ kind: :demo, input: +"abc", normalized: "ABC", formatted: "A-B-C",
-                     errors: [], details: { list: [1, { deep: +"x" }] } }.merge(overrides))
+      Result.new(kind: :demo, input: +"abc", normalized: "ABC", formatted: "A-B-C",
+                 errors: [], details: { list: [1, { deep: +"x" }] }, **overrides)
     end
 
     def test_valid_when_there_are_no_errors
@@ -62,7 +62,7 @@ module Brkit
     def test_to_h_is_json_friendly
       issue = Issue.new(code: :checksum, message: "bad digit", field: nil)
       hash = build(errors: [issue]).to_h
-      assert_equal %i[kind input valid normalized formatted errors details], hash.keys
+      assert_equal [:kind, :input, :valid, :normalized, :formatted, :errors, :details], hash.keys
       assert_equal false, hash[:valid]
       assert_equal [{ code: "checksum", message: "bad digit" }], hash[:errors]
     end

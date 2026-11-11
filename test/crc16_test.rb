@@ -61,7 +61,7 @@ module Brkit
     def test_trace_records_one_step_per_byte_and_ends_on_the_checksum
       steps = CRC16.trace("123456789")
       assert_equal 9, steps.length
-      assert_equal %w[1 2 3 4 5 6 7 8 9].map(&:ord), steps.map { |step| step[:byte] }
+      assert_equal(%w[1 2 3 4 5 6 7 8 9].map(&:ord), steps.map { |step| step[:byte] })
       assert_equal CRC16.checksum("123456789"), steps.last[:crc]
       assert_equal 0x29B1, steps.last[:crc]
     end

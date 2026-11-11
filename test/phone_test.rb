@@ -74,7 +74,7 @@ module Brkit
     def test_area_code_tables_agree
       assert_equal Phone::AREA_CODES_BY_UF.values.flatten.sort, Phone::AREA_CODES.keys
       assert_equal UF::CODES, Phone::AREA_CODES_BY_UF.keys.sort
-      assert Phone::AREA_CODES.values.all? { |uf| UF::CODES.include?(uf) }
+      assert(Phone::AREA_CODES.values.all? { |uf| UF::CODES.include?(uf) })
     end
 
     def test_valid_numbers

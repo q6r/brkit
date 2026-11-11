@@ -123,7 +123,7 @@ module Brkit
     def test_addresses
       people.each do |person|
         address = person.address
-        assert_equal %i[street number complement neighborhood city uf cep], address.keys
+        assert_equal [:street, :number, :complement, :neighborhood, :city, :uf, :cep], address.keys
         assert_includes Fake::Data::STREET_TYPES, address[:street].split.first
         assert_match(/\A[1-9]\d{0,3}\z/, address[:number])
         assert(address[:complement].nil? || Fake::Data::COMPLEMENTS.include?(address[:complement]))
@@ -154,7 +154,7 @@ module Brkit
       [Fake::Data::FEMALE_NAMES, Fake::Data::MALE_NAMES, Fake::Data::SURNAMES, Fake::Data::STREET_NAMES,
        Fake::Data::NEIGHBORHOODS, Fake::Data::COMPLEMENTS, Fake::Data::EMAIL_DOMAINS].each do |list|
         assert_equal list.uniq.length, list.length, "duplicates in #{list.first(3)}"
-        assert list.all? { |word| word.is_a?(String) && !word.strip.empty? }
+        assert(list.all? { |word| word.is_a?(String) && !word.strip.empty? })
       end
       assert_empty Fake::Data::FEMALE_NAMES & Fake::Data::MALE_NAMES
     end

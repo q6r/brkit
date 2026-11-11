@@ -184,8 +184,7 @@ module Brkit
         inner = ->(_env) { raise error }
         env = env_for("GET", "/boom")
         status, headers, body = Middleware::ErrorBoundary.new(inner, logger: logger).call(env)
-        parts = []
-        body.each { |part| parts << part }
+        parts = body.map { |part| part }
         RackHelpers::Reply.new(status, headers, parts.join)
       end
 

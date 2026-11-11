@@ -29,7 +29,7 @@ module Brkit
       # @param digits [String] decimal digits only
       # @return [Hash{Symbol=>Object}] +entries+ (right to left: digit, doubled, contribution), +sum+, +remainder+
       def steps(digits)
-        entries = digits.reverse.each_char.each_with_index.map do |char, index|
+        entries = digits.reverse.each_char.with_index.map do |char, index|
           value = char.to_i
           doubled = index.odd?
           { digit: value, doubled: doubled, contribution: doubled ? double(value) : value }
@@ -44,7 +44,7 @@ module Brkit
       # the position counter: 0 for a complete number (check digit at index 0),
       # 1 for a payload that still lacks its check digit.
       def weighted_sum(digits, offset)
-        digits.reverse.each_char.each_with_index.sum do |char, index|
+        digits.reverse.each_char.with_index.sum do |char, index|
           value = char.to_i
           (index + offset).odd? ? double(value) : value
         end

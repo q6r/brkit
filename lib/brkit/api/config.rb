@@ -37,6 +37,7 @@ module Brkit
       end
     end
 
+    # Reading and validating the settings from the environment (the struct itself is documented above).
     class Config
       ORIGIN = %r{\Ahttps?://[A-Za-z0-9.-]+(?::\d{1,5})?\z}
       private_constant :ORIGIN
@@ -62,9 +63,7 @@ module Brkit
         def origins(value)
           list = value.to_s.split(",").map(&:strip).reject(&:empty?)
           bad = list.find { |origin| origin != "*" && !origin.match?(ORIGIN) }
-          if bad
-            raise ConfigError, "BRKIT_CORS_ORIGIN: #{bad.inspect} is not an origin such as https://example.com or *"
-          end
+          raise ConfigError, "BRKIT_CORS_ORIGIN: #{bad.inspect} is not an origin such as https://example.com or *" if bad
           if list.include?("*") && list.length > 1
             raise ConfigError, "BRKIT_CORS_ORIGIN: '*' cannot be combined with other origins"
           end

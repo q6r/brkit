@@ -71,7 +71,7 @@ module Brkit
           amount: amount_value, txid: txid_value, message: text(:message, MAX_MESSAGE, required: false)
         }
         check_template_length(key, values[:message])
-        raise InvalidInputError.new(@issues) unless @issues.empty?
+        raise InvalidInputError, @issues unless @issues.empty?
 
         assemble(key, values)
       end
@@ -120,9 +120,7 @@ module Brkit
         return nil if raw.nil? || (raw.is_a?(String) && raw.strip.empty?)
 
         match = AMOUNT.match(amount_text(raw))
-        unless match
-          return add(:invalid_amount, "amount must be a plain number with at most two decimals, e.g. 12.50", :amount)
-        end
+        return add(:invalid_amount, "amount must be a plain number with at most two decimals, e.g. 12.50", :amount) unless match
 
         whole = match[:whole].sub(/\A0+(?=\d)/, "")
         cents = match[:cents].to_s.ljust(2, "0")

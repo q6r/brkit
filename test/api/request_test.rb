@@ -10,8 +10,8 @@ module Brkit
         Request.new(env_for("GET", path, **options))
       end
 
-      def assert_problem(status, slug = nil, message = nil, &block)
-        error = assert_raises(Problem, *message, &block)
+      def assert_problem(status, slug = nil, message = nil, &)
+        error = assert_raises(Problem, *message, &)
         assert_equal status, error.status
         assert_equal slug, error.slug if slug
         error
@@ -247,7 +247,7 @@ module Brkit
       end
 
       def test_json_nesting_is_limited
-        deep = ->(levels) { ('{"a":' * levels) + "1" + ("}" * levels) }
+        deep = ->(levels) { "#{'{"a":' * levels}1#{'}' * levels}" }
         assert_kind_of Hash, json_request(deep.call(8)).json_body
         assert_problem(400, "invalid-json") { json_request(deep.call(9)).json_body }
         assert_problem(400, "invalid-json") { json_request("[" * 5000).json_body }

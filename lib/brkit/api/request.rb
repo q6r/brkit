@@ -73,7 +73,8 @@ module Brkit
 
       # @return [String, nil] the media type of the body, lower case and without parameters
       def media_type
-        header("content-type")&.split(";")&.first&.strip&.downcase
+        first = header("content-type")&.split(";")&.first
+        first&.strip&.downcase
       end
 
       # @return [String, nil] the +charset+ parameter of the content type, lower case
@@ -81,7 +82,8 @@ module Brkit
         parameter = header("content-type").to_s.split(";").drop(1).map(&:strip).find do |part|
           part.downcase.start_with?("charset=")
         end
-        parameter&.split("=", 2)&.last&.delete('"')&.downcase
+        value = parameter&.split("=", 2)&.last
+        value&.delete('"')&.downcase
       end
 
       # @return [Integer, nil] the declared body size

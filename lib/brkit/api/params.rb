@@ -189,9 +189,7 @@ module Brkit
 
         def check_string(spec, value, issues)
           limit = spec.max_length || DEFAULT_MAX_LENGTH
-          if value.length > limit
-            return problem(spec, :too_long, "#{spec.name} can have at most #{limit} characters", issues)
-          end
+          return problem(spec, :too_long, "#{spec.name} can have at most #{limit} characters", issues) if value.length > limit
           return value unless spec.enum && !spec.enum.include?(value)
 
           problem(spec, :not_allowed, "#{spec.name} must be one of: #{spec.enum.join(', ')}", issues)

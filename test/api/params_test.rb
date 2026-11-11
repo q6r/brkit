@@ -121,7 +121,7 @@ module Brkit
       end
 
       def test_optional_parameters_without_a_default_are_left_out
-        assert_equal %i[cpf count formatted], Params.from_query(specs, { "cpf" => "x" }).keys
+        assert_equal [:cpf, :count, :formatted], Params.from_query(specs, { "cpf" => "x" }).keys
       end
 
       # -- body --------------------------------------------------------------------------------------------

@@ -70,13 +70,13 @@ module Brkit
       end
 
       # @see #add
-      def get(path, **options, &handler)
-        add("GET", path, **options, &handler)
+      def get(path, ...)
+        add("GET", path, ...)
       end
 
       # @see #add
-      def post(path, **options, &handler)
-        add("POST", path, **options, &handler)
+      def post(path, ...)
+        add("POST", path, ...)
       end
 
       # @param path [String] decoded request path

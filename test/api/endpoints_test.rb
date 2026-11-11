@@ -266,13 +266,13 @@ module Brkit
         document = reply.json
         assert_equal MANUAL_PAYLOAD, document["payload"]
         assert_equal ["1D3D", "evp"], document.values_at("crc", "key_type")
-        assert_equal %w[00 26 52 53 58 59 60 62 63], document["fields"].map { |field| field["id"] }
-        assert_equal %w[00 01], document["fields"][1]["children"].map { |child| child["id"] }
+        assert_equal(%w[00 26 52 53 58 59 60 62 63], document["fields"].map { |field| field["id"] })
+        assert_equal(%w[00 01], document["fields"][1]["children"].map { |child| child["id"] })
       end
 
       def test_building_with_every_field
         reply = post_json(app, "/api/v1/pix/payload", { key: "529.982.247-25", name: "Ação Café Ltda", city: "São Paulo",
-                                                       amount: 12.5, txid: "PED123", message: "Pedido 42" })
+                                                        amount: 12.5, txid: "PED123", message: "Pedido 42" })
         expected = "00020126460014br.gov.bcb.pix0111529982247250209Pedido 42520400005303986540512.505802BR5914Acao Cafe " \
                    "Ltda6009Sao Paulo62100506PED1236304E73D"
         assert_equal expected, reply.json["payload"]
@@ -290,9 +290,9 @@ module Brkit
 
       def test_payload_problems_are_listed_field_by_field
         reply = post_json(app, "/api/v1/pix/payload", { key: "nope", name: "", city: "x" * 20, amount: "0,001",
-                                                       txid: "a b", message: "m" * 80 })
+                                                        txid: "a b", message: "m" * 80 })
         document = assert_problem(reply, 422, "validation-error")
-        assert_equal %w[key name city amount txid message], document["errors"].map { |error| error["field"] }
+        assert_equal(%w[key name city amount txid message], document["errors"].map { |error| error["field"] })
         assert(document["errors"].all? { |error| error["code"] && error["message"] })
         assert_equal "6 fields are invalid", document["detail"]
       end
@@ -303,7 +303,7 @@ module Brkit
         assert_equal [{ "code" => "unknown_field", "message" => unknown["errors"][0]["message"], "field" => "ammount" }],
                      unknown["errors"]
         missing = assert_problem(post_json(app, "/api/v1/pix/payload", {}), 422, "validation-error")
-        assert_equal %w[key name city], missing["errors"].map { |error| error["field"] }
+        assert_equal(%w[key name city], missing["errors"].map { |error| error["field"] })
         types = assert_problem(post_json(app, "/api/v1/pix/payload", { key: 5, name: true, city: [], amount: {} }), 422,
                                "validation-error")
         assert_equal %w[invalid_type], types["errors"].map { |error| error["code"] }.uniq
@@ -366,11 +366,11 @@ module Brkit
         reply = post_json(app, "/api/v1/pix/decode", { payload: MANUAL_PAYLOAD.sub("Fulano", "Fulana") })
         assert_equal 200, reply.status
         assert_equal false, reply.json["valid"]
-        assert_equal ["crc_mismatch"], reply.json["errors"].map { |error| error["code"] }
+        assert_equal(["crc_mismatch"], reply.json["errors"].map { |error| error["code"] })
         garbage = post_json(app, "/api/v1/pix/decode", { payload: "not a pix payload" }).json
-        assert_equal ["malformed_tlv"], garbage["errors"].map { |error| error["code"] }
+        assert_equal(["malformed_tlv"], garbage["errors"].map { |error| error["code"] })
         multiline = post_json(app, "/api/v1/pix/decode", { payload: "000201\n010211" }).json
-        assert_equal ["control_characters"], multiline["errors"].map { |error| error["code"] }
+        assert_equal(["control_characters"], multiline["errors"].map { |error| error["code"] })
       end
 
       def test_decode_body_validation

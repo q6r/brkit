@@ -241,7 +241,7 @@ module Brkit
         rescue StandardError => e
           log(env, e)
           respond(env, Problem.new("internal-error", "an unexpected error occurred; quote the request id when " \
-                                                    "reporting it"))
+                                                     "reporting it"))
         end
 
         private

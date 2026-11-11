@@ -76,7 +76,7 @@ module Brkit
       # @raise [InvalidInputError] when +input+ does not hold 14 characters
       def format(input)
         chars = strip(input)
-        raise InvalidInputError.new([length_issue(chars)]) unless chars.length == LENGTH
+        raise InvalidInputError, [length_issue(chars)] unless chars.length == LENGTH
 
         mask(chars)
       end
@@ -198,9 +198,7 @@ module Brkit
       def random_root(random, alphanumeric)
         alphabet = alphanumeric ? ALPHABET : DIGITS
         root = Array.new(ROOT_LENGTH) { Rng.pick(random, alphabet) }
-        if alphanumeric && root.none? { |char| LETTERS.include?(char) }
-          root[random.rand(ROOT_LENGTH)] = Rng.pick(random, LETTERS)
-        end
+        root[random.rand(ROOT_LENGTH)] = Rng.pick(random, LETTERS) if alphanumeric && root.none? { |char| LETTERS.include?(char) }
         root.join
       end
     end

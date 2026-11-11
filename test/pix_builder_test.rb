@@ -30,7 +30,7 @@ module Brkit
     }.freeze
 
     def build(**overrides)
-      Pix.build(**{ key: EVP, name: "Fulano de Tal", city: "BRASILIA" }.merge(overrides))
+      Pix.build(key: EVP, name: "Fulano de Tal", city: "BRASILIA", **overrides)
     end
 
     def issues_for(**overrides)
@@ -168,7 +168,7 @@ module Brkit
 
     def test_required_fields
       issues = issues_for(name: nil, city: " ", key: "")
-      assert_equal [%w[key blank], %w[name missing], %w[city missing]], issues.map { |i| [i.field, i.code.to_s] }
+      assert_equal([%w[key blank], %w[name missing], %w[city missing]], issues.map { |i| [i.field, i.code.to_s] })
       assert_equal %w[name], issues_for(name: "").map(&:field)
     end
 
@@ -220,7 +220,7 @@ module Brkit
                "#{index.to_s.rjust(8, '0')}-e12b-12d1-a456-426655440000"][index % 5]
         payload = Pix.build(key: key, name: person.name[0, 25], city: person.address[:city][0, 15],
                             amount: index.even? ? "#{random.rand(1..99_999)}.#{random.rand(10..99)}" : nil,
-                            txid: index % 3 == 0 ? "TX#{index}" : nil, message: index % 4 == 0 ? "ref #{index}" : nil)
+                            txid: (index % 3).zero? ? "TX#{index}" : nil, message: (index % 4).zero? ? "ref #{index}" : nil)
         result = Pix.decode(payload.to_s)
         assert_valid result, "#{payload}: #{result.error_messages.inspect}"
         assert_equal payload.crc, result.details[:crc][:actual]

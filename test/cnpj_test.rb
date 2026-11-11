@@ -183,7 +183,7 @@ module Brkit
     end
 
     def test_generation_options
-      assert_match(/\A\d{2}\.\d{3}\.\d{3}\/0001-\d{2}\z/, CNPJ.generate(seed: 1, formatted: true))
+      assert_match(%r{\A\d{2}\.\d{3}\.\d{3}/0001-\d{2}\z}, CNPJ.generate(seed: 1, formatted: true))
       assert_match(%r{\A[0-9A-Z]{2}\.[0-9A-Z]{3}\.[0-9A-Z]{3}/0002-\d{2}\z},
                    CNPJ.generate(seed: 1, formatted: true, branch: "0002"))
       assert_equal "A1B2", CNPJ.validate(CNPJ.generate(alphanumeric: true, branch: "a1b2", seed: 3)).details[:branch]

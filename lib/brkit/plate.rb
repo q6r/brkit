@@ -78,7 +78,7 @@ module Brkit
       # @raise [InvalidInputError] when +input+ is not a valid plate
       def to_mercosul(input)
         result = convert(input)
-        raise InvalidInputError.new(result.errors) unless result.valid?
+        raise InvalidInputError, result.errors unless result.valid?
 
         result.normalized
       end
@@ -86,7 +86,7 @@ module Brkit
       # @param input [String]
       # @return [String] upper-case plate without hyphens or spaces
       def strip(input)
-        Text.coerce(input).upcase(:ascii).gsub(/[\-\s]/, "")
+        Text.coerce(input).upcase(:ascii).gsub(/[-\s]/, "")
       end
 
       # Generates a plate in the given layout. It is synthetic and may coincide with a real plate.
@@ -102,7 +102,7 @@ module Brkit
         letters = Array.new(3) { Rng.pick(random, LETTERS) }.join
         case layout.to_s
         when "mercosul" then "#{letters}#{random.rand(10)}#{Rng.pick(random, LETTERS)}#{Rng.digits(random, 2).join}"
-        when "legacy" then "#{letters}#{formatted ? '-' : ''}#{Rng.digits(random, 4).join}"
+        when "legacy" then "#{letters}#{'-' if formatted}#{Rng.digits(random, 4).join}"
         else raise InvalidInputError.for(:invalid_layout, "layout must be mercosul or legacy", field: "layout")
         end
       end

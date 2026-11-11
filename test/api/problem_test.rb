@@ -54,7 +54,7 @@ module Brkit
 
       def test_problems_are_exceptions_of_the_library_hierarchy
         assert_operator Problem, :<, Brkit::Error
-        assert_raises(Brkit::Error) { raise Problem.new("bad-request") }
+        assert_raises(Brkit::Error) { raise Problem, "bad-request" }
       end
 
       def test_headers_and_errors_are_frozen

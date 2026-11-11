@@ -74,7 +74,7 @@ module Brkit
     def test_several_values_report_each_and_fail_if_any_fails
       outcome = brkit("cpf", "validate", "529.982.247-25", "111.111.111-11")
       assert_equal 1, outcome.status
-      assert_equal %w[valid: invalid:], outcome.lines.grep(/\A(in)?valid:/).map { |line| line[/\A\S+/] }
+      assert_equal(%w[valid: invalid:], outcome.lines.grep(/\A(in)?valid:/).map { |line| line[/\A\S+/] })
     end
 
     def test_values_can_come_from_standard_input
@@ -329,7 +329,7 @@ module Brkit
 
     def test_every_completed_option_exists_in_the_real_command
       CLI::Completion.words.each do |prefix, words|
-        next if prefix.empty? || !words.any? { |word| word.start_with?("-") }
+        next if prefix.empty? || words.none? { |word| word.start_with?("-") }
 
         help = brkit(*prefix.split, "--help")
         assert_equal 0, help.status, prefix

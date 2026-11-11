@@ -87,7 +87,7 @@ module Brkit
         end
       end
 
-      BASH_TEMPLATE = <<~'BASH'
+      BASH_TEMPLATE = <<~BASH
         # bash completion for brkit. Load it with:  source <(brkit completion bash)
         _brkit() {
           local cur="${COMP_WORDS[COMP_CWORD]}" prev="${COMP_WORDS[COMP_CWORD-1]}" prefix="" count=0 words i

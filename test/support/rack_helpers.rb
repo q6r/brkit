@@ -47,8 +47,7 @@ module Brkit
       response = app.call(env_for(method, path, **options))
       assert_rack_response(response, head: method.to_s.upcase == "HEAD")
       status, headers, body = response
-      chunks = []
-      body.each { |chunk| chunks << chunk }
+      chunks = body.map { |chunk| chunk }
       Reply.new(status, headers, chunks.join)
     end
 
@@ -68,8 +67,7 @@ module Brkit
       assert_kind_of Hash, headers
       assert_headers_valid(status, headers)
       assert_respond_to body, :each
-      chunks = []
-      body.each { |chunk| chunks << chunk }
+      chunks = body.map { |chunk| chunk }
       chunks.each { |chunk| assert_kind_of String, chunk }
       return if head || !headers.key?("content-length")
 

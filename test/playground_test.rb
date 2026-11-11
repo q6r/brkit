@@ -64,7 +64,8 @@ module Brkit
 
     def test_the_script_never_turns_data_into_markup_or_code
       js = read("app.js")
-      %w[innerHTML outerHTML insertAdjacentHTML document.write eval( new\ Function setAttribute('style' ].each do |pattern|
+      ["innerHTML", "outerHTML", "insertAdjacentHTML", "document.write", "eval(", "new Function",
+       "setAttribute('style'"].each do |pattern|
         refute_includes js, pattern, "app.js must not use #{pattern}"
       end
       refute_match(/set(Timeout|Interval)\(\s*["'`]/, js, "string timers evaluate code")

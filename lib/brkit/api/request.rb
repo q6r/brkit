@@ -139,7 +139,9 @@ module Brkit
         raw = body
         raise Problem.new("invalid-json", "the request body is empty") if raw.strip.empty?
 
-        data = JSON.parse(raw, max_nesting: MAX_JSON_NESTING, create_additions: false, allow_nan: false)
+        # JSON.parse never instantiates classes named in the document (create_additions is off by default;
+        # json 3 no longer accepts the keyword at all), and the nesting depth is bounded.
+        data = JSON.parse(raw, max_nesting: MAX_JSON_NESTING, allow_nan: false)
         raise Problem.new("invalid-json", "the body must be a JSON object") unless data.is_a?(Hash)
 
         data

@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Pedro Carvalho Almeida",
+    "gender": "M",
+    "cpf": "074.106.949-04",
+    "email": "pedro.almeida70@example.org",
+    "phone": "(45) 96352-6097",
+    "phone_e164": "+5545963526097",
+    "birthdate": "1962-08-10",
+    "address": {
+      "street": "Praça Dom Pedro II",
+      "number": "6608",
+      "complement": "Bloco B",
+      "neighborhood": "Alto da Boa Vista",
+      "city": "Foz do Iguaçu",
+      "uf": "PR",
+      "cep": "83423-989"
+    }
+  },
+  {
+    "name": "Maria Souza Correia",
+    "gender": "F",
+    "cpf": "396.056.870-38",
+    "email": "maria.correia17@example.net",
+    "phone": "(54) 97813-2387",
+    "phone_e164": "+5554978132387",
+    "birthdate": "1986-02-13",
+    "address": {
+      "street": "Praça das Flores",
+      "number": "725",
+      "complement": "Casa 2",
+      "neighborhood": "Santo Antônio",
+      "city": "Caxias do Sul",
+      "uf": "RS",
+      "cep": "99102-043"
+    }
+  },
+  {
+    "name": "Bruno Gonçalves Barros",
+    "gender": "M",
+    "cpf": "797.035.154-95",
+    "email": "bruno.barros44@example.org",
+    "phone": "(82) 96332-9575",
+    "phone_e164": "+5582963329575",
+    "birthdate": "1947-02-25",
+    "address": {
+      "street": "Avenida das Acácias",
+      "number": "4516",
+      "complement": null,
+      "neighborhood": "Jardim das Flores",
+      "city": "Arapiraca",
+      "uf": "AL",
+      "cep": "57547-353"
+    }
+  },
+  {
+    "name": "Tatiane Helena Mendes Nascimento",
+    "gender": "F",
+    "cpf": "141.546.538-06",
+    "email": "tatiane.nascimento97@example.com",
+    "phone": "(11) 98608-0969",
+    "phone_e164": "+5511986080969",
+    "birthdate": "1983-07-21",
+    "address": {
+      "street": "Rua da Liberdade",
+      "number": "3121",
+      "complement": null,
+      "neighborhood": "Cidade Nova",
+      "city": "São Paulo",
+      "uf": "SP",
+      "cep": "07823-837"
+    }
+  },
+  {
+    "name": "Alexandre Alves Campos",
+    "gender": "M",
+    "cpf": "435.434.298-76",
+    "email": "alexandre.campos35@example.com",
+    "phone": "(17) 97006-1791",
+    "phone_e164": "+5517970061791",
+    "birthdate": "2000-02-04",
+    "address": {
+      "street": "Rua São João",
+      "number": "745",
+      "complement": null,
+      "neighborhood": "Boa Vista",
+      "city": "São José do Rio Preto",
+      "uf": "SP",
+      "cep": "18115-238"
+    }
+  },
+  {
+    "name": "Luana Barros Ramos",
+    "gender": "F",
+    "cpf": "473.299.247-17",
+    "email": "luana.ramos37@example.net",
+    "phone": "(24) 98366-9864",
+    "phone_e164": "+5524983669864",
+    "birthdate": "2000-05-07",
+    "address": {
+      "street": "Avenida da Independência",
+      "number": "687",
+      "complement": "Apto 12",
+      "neighborhood": "Santo Antônio",
+      "city": "Volta Redonda",
+      "uf": "RJ",
+      "cep": "21767-916"
+    }
+  },
+  {
+    "name": "João Daniel Almeida Andrade",
+    "gender": "M",
+    "cpf": "945.187.097-05",
+    "email": "joao.andrade46@example.org",
+    "phone": "(27) 96593-3826",
+    "phone_e164": "+5527965933826",
+    "birthdate": "1958-02-16",
+    "address": {
+      "street": "Travessa dos Andradas",
+      "number": "5491",
+      "complement": "Fundos",
+      "neighborhood": "Santo Antônio",
+      "city": "Vitória",
+      "uf": "ES",
+      "cep": "29735-859"
+    }
+  },
+  {
+    "name": "José Santos Pereira",
+    "gender": "M",
+    "cpf": "054.917.052-92",
+    "email": "jose.pereira19@example.com",
+    "phone": "(91) 98944-5571",
+    "phone_e164": "+5591989445571",
+    "birthdate": "1968-03-01",
+    "address": {
+      "street": "Travessa dos Andradas",
+      "number": "5057",
+      "complement": null,
+      "neighborhood": "Jardim Botânico",
+      "city": "Belém",
+      "uf": "PA",
+      "cep": "66544-531"
+    }
+  },
+  {
+    "name": "Diego Rodrigues Mendes",
+    "gender": "M",
+    "cpf": "526.059.134-81",
+    "email": "diego.mendes29@example.com",
+    "phone": "(82) 97861-2821",
+    "phone_e164": "+5582978612821",
+    "birthdate": "2006-04-28",
+    "address": {
+      "street": "Avenida Sete de Setembro",
+      "number": "4633",
+      "complement": "Loja 5",
+      "neighborhood": "Vila Rica",
+      "city": "Maceió",
+      "uf": "AL",
+      "cep": "57063-820"
+    }
+  },
+  {
+    "name": "Francisco Silva Ramos",
+    "gender": "M",
+    "cpf": "003.024.155-30",
+    "email": "francisco.ramos79@example.com",
+    "phone": "(79) 97985-5137",
+    "phone_e164": "+5579979855137",
+    "birthdate": "1995-10-09",
+    "address": {
+      "street": "Travessa São João",
+      "number": "845",
+      "complement": "Apto 12",
+      "neighborhood": "Industrial",
+      "city": "Aracaju",
+      "uf": "SE",
+      "cep": "49768-684"
+    }
+  }
+]

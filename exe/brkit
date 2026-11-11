@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Running from a checkout (ruby exe/brkit) works without installing the gem.
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+
+require "brkit/cli"
+
+exit Brkit::CLI.start(ARGV)

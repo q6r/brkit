@@ -1,0 +1,25 @@
+# Ruby / Bundler
+/.bundle/
+/vendor/bundle/
+/Gemfile.lock
+*.gem
+/pkg/
+/.yardoc/
+/doc/
+/tmp/
+
+# Build output and tooling
+.venv/
+bin/
+obj/
+dist/
+coverage/
+node_modules/
+*.log
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

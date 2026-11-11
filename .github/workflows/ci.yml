@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests (Ruby ${{ matrix.ruby }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        ruby: ["3.1", "3.2", "3.3", "3.4"]
+        include:
+          - { os: macos-latest, ruby: "3.4" }
+          - { os: windows-latest, ruby: "3.4" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - run: bundle exec rake test
+
+  lint:
+    name: RuboCop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+      - run: bundle exec rubocop
+      - name: The playground script parses
+        run: node --check public/app.js
+
+  smoke:
+    name: Boot the server and call it
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITH: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+      - name: Start rackup
+        run: |
+          bundle exec rackup config.ru --host 127.0.0.1 --port 9292 > rackup.log 2>&1 &
+          echo $! > rackup.pid
+          for attempt in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:9292/healthz > /dev/null && exit 0
+            sleep 1
+          done
+          cat rackup.log
+          exit 1
+      - name: API answers
+        run: |
+          curl -fsS "http://127.0.0.1:9292/api/v1/cpf/generate?count=2&seed=1" | tee cpf.json
+          ruby -rjson -e 'doc = JSON.parse(File.read("cpf.json")); abort "unexpected: #{doc}" unless doc["count"] == 2 && doc["seed"] == 1'
+          curl -fsS "http://127.0.0.1:9292/api/v1/cpf/validate?cpf=529.982.247-25&explain=true" | ruby -rjson -e 'abort "not valid" unless JSON.parse($stdin.read)["valid"]'
+          curl -fsS http://127.0.0.1:9292/api/v1/openapi.json | ruby -rjson -e 'abort "no paths" if JSON.parse($stdin.read)["paths"].empty?'
+      - name: Playground assets are served with a strict policy
+        run: |
+          curl -fsSI http://127.0.0.1:9292/ | tee headers.txt
+          grep -i "^content-security-policy: .*script-src 'self'" headers.txt
+          for asset in aurora.css aurora.js app.css app.js favicon.svg; do
+            curl -fsS -o /dev/null -w "$asset %{http_code} %{content_type}\n" "http://127.0.0.1:9292/$asset"
+          done
+      - name: Stop rackup
+        if: always()
+        run: kill "$(cat rackup.pid)" || true

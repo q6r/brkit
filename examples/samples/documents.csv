@@ -1,0 +1,43 @@
+kind,value,expected
+cpf,589.500.176-95,valid
+cpf,886.287.215-17,valid
+cpf,893.880.539-58,valid
+cpf,751.878.297-93,valid
+cpf,366.098.470-10,valid
+cpf,589.500.176-96,invalid
+cnpj,C8.9B5.F0G/0001-00,valid
+cnpj,88.628.721/0001-91,valid
+cnpj,O3.80L.JAA/0001-60,valid
+cnpj,75.187.829/0001-44,valid
+cnpj,ZE.G98.RUG/0001-90,valid
+cnpj,C8.9B5.F0G/0001-01,invalid
+pis,589.50017.69-0,valid
+pis,886.28721.54-8,valid
+pis,893.88053.99-4,valid
+pis,751.87829.77-4,valid
+pis,366.09847.00-8,valid
+pis,589.50017.69-1,invalid
+card,3571 8950 0176 9245,valid
+card,6446 2872 1544 5737,valid
+card,6478 8053 9957 6042,valid
+card,4518 7829 7779 8420,valid
+card,3466 098470 07151,valid
+card,3571 8950 0176 9246,invalid
+plate,FLM-8950,valid
+plate,IPN8W28,valid
+plate,KYZ-3880,valid
+plate,OXF1I78,valid
+plate,DOP-6609,valid
+plate,FLM-895,invalid
+phone,(64) 99895-0017,valid
+phone,(67) 99862-8721,valid
+phone,(44) 97388-0539,valid
+phone,(75) 99518-7829,valid
+phone,(94) 98609-8470,valid
+phone,(64) 99895-001,invalid
+cep,89708-072,valid
+cep,12256-527,valid
+cep,95530-664,valid
+cep,05066-174,valid
+cep,78883-206,valid
+cep,89708-07,invalid

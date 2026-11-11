@@ -1,0 +1,53 @@
+# Requests for the VS Code "REST Client" and JetBrains HTTP Client. Start the server first: brkit serve
+@base = http://127.0.0.1:9292
+
+### Liveness
+GET {{base}}/healthz
+
+### Validate a CPF
+GET {{base}}/api/v1/cpf/validate?cpf=529.982.247-25
+
+### ...with the checksum steps (what the playground animates)
+GET {{base}}/api/v1/cpf/validate?cpf=529.982.247-25&explain=true
+
+### Alphanumeric CNPJ
+GET {{base}}/api/v1/cnpj/validate?cnpj=12.ABC.345/01DE-35&explain=true
+
+### Reproducible generation: the same seed, the same values
+GET {{base}}/api/v1/cpf/generate?uf=SP&count=3&seed=7&formatted=true
+
+### Test card
+GET {{base}}/api/v1/card/generate?brand=visa&seed=1
+
+### Legacy plate to Mercosul
+GET {{base}}/api/v1/plate/convert?plate=ABC-1234
+
+### Build a PIX BR Code
+POST {{base}}/api/v1/pix/payload
+Content-Type: application/json
+
+{
+  "key": "123e4567-e12b-12d1-a456-426655440000",
+  "name": "Fulano de Tal",
+  "city": "BRASILIA",
+  "amount": 12.5,
+  "txid": "PED123"
+}
+
+### Decode it, with the CRC steps
+POST {{base}}/api/v1/pix/decode
+Content-Type: application/json
+
+{
+  "payload": "00020126580014br.gov.bcb.pix0136123e4567-e12b-12d1-a456-4266554400005204000053039865802BR5913Fulano de Tal6008BRASILIA62070503***63041D3D",
+  "explain": true
+}
+
+### A fictitious person
+GET {{base}}/api/v1/fake/person?count=1&seed=7
+
+### An error (problem details)
+GET {{base}}/api/v1/cpf/generate?count=500
+
+### The OpenAPI document
+GET {{base}}/api/v1/openapi.json

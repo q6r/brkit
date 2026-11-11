@@ -52,7 +52,7 @@ module Brkit
           assert_equal route.params.map { |param| param.name.to_s }.sort, documented.keys.sort, route.path
           route.params.each do |param|
             assert_equal param.required, documented.fetch(param.name.to_s)["required"], "#{route.path} #{param.name}"
-            assert_equal param.enum, documented.fetch(param.name.to_s)["schema"]["enum"]
+            assert_value param.enum, documented.fetch(param.name.to_s)["schema"]["enum"]
           end
         end
       end

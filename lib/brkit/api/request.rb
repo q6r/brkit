@@ -27,6 +27,17 @@ module Brkit
       CONTROL = /[\x00-\x1F\x7F]/
       PERCENT_ENCODED = /\A(?:[^%]|%\h\h)*\z/
 
+      # The Hash a JSON object is parsed into while parsing. It refuses a repeated key, so a body means the same
+      # thing under every json version (json 3 rejects duplicate keys, older versions silently keep the last value).
+      class ObjectGuard < Hash
+        def []=(key, value)
+          raise JSON::ParserError, "duplicate key" if key?(key)
+
+          super
+        end
+      end
+      private_constant :ObjectGuard
+
       # @return [Hash] the Rack environment
       attr_reader :env
 
@@ -143,7 +154,7 @@ module Brkit
 
         # JSON.parse never instantiates classes named in the document (create_additions is off by default;
         # json 3 no longer accepts the keyword at all), and the nesting depth is bounded.
-        data = JSON.parse(raw, max_nesting: MAX_JSON_NESTING, allow_nan: false)
+        data = plain_json(JSON.parse(raw, max_nesting: MAX_JSON_NESTING, allow_nan: false, object_class: ObjectGuard))
         raise Problem.new("invalid-json", "the body must be a JSON object") unless data.is_a?(Hash)
 
         data
@@ -197,6 +208,15 @@ module Brkit
       end
 
       private
+
+      # Copies parsed JSON into plain Hashes and Arrays: the guard class only exists while parsing.
+      def plain_json(value)
+        case value
+        when Hash then value.each_with_object({}) { |(key, item), copy| copy[key] = plain_json(item) }
+        when Array then value.map { |item| plain_json(item) }
+        else value
+        end
+      end
 
       def decode_path(raw)
         raw = "/" if raw.empty?

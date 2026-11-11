@@ -220,7 +220,6 @@ module Brkit
 
       def test_json_body_returns_the_object
         assert_equal({ "a" => 1, "b" => [true, nil, "é"] }, json_request('{"a":1,"b":[true,null,"é"]}').json_body)
-        assert_equal({ "a" => 2 }, json_request('{"a":1,"a":2}').json_body)
         assert_equal({}, json_request("{}").json_body)
         assert_equal({ "a" => 1 }, json_request('{"a":1}', type: "application/json; charset=UTF-8").json_body)
       end
@@ -237,6 +236,22 @@ module Brkit
         ["{", "{'a':1}", "{\"a\":}", "nope", "{\"a\":NaN}", "{\"a\":Infinity}", "﻿{}", "{} x", "{\"a\":1,}"].each do |body|
           assert_problem(400, "invalid-json", body.inspect) { json_request(body).json_body }
         end
+      end
+
+      # The same body must mean the same thing under every json version: a repeated key is ambiguous, so it is refused.
+      def test_json_body_rejects_a_repeated_key
+        ['{"a":1,"a":2}', '{"x":{"a":1,"a":1}}', '[{"a":1,"a":2}]'].each do |body|
+          assert_problem(400, "invalid-json", body) { json_request(body).json_body }
+        end
+      end
+
+      def test_json_body_is_plain_hashes_and_arrays
+        data = json_request('{"a":{"b":[{"c":1}]}}').json_body
+        assert_instance_of Hash, data
+        assert_instance_of Hash, data["a"]
+        assert_instance_of Hash, data["a"]["b"].first
+        data["a"]["b"].first["c"] = 2 # a plain Hash: overwriting a key is fine once parsing is over
+        assert_equal 2, data["a"]["b"].first["c"]
       end
 
       def test_json_body_must_be_an_object
